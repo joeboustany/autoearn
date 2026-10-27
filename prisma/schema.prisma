@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  source    String   @default("organic")
+  createdAt DateTime @default(now())
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  source    String?
+  country   String?
+  createdAt DateTime @default(now())
+}
+
+model RevenueEvent {
+  id          String   @id @default(cuid())
+  stream      String   // affiliate | digital | ads | subscription
+  amount      Float
+  currency    String   @default("USD")
+  description String?
+  createdAt   DateTime @default(now())
+}
