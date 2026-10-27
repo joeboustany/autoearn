@@ -6,7 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  // Use postgresql for production (Vercel + Supabase).
+  // To switch back to local SQLite dev, change this to "sqlite"
+  // and update DATABASE_URL in .env to "file:./db/custom.db"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
