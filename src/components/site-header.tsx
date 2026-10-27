@@ -9,9 +9,11 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Dashboard", href: "#dashboard" },
-  { label: "Income Streams", href: "#streams" },
-  { label: "Affiliate Store", href: "#affiliate" },
-  { label: "Digital Products", href: "#products" },
+  { label: "Streams", href: "#streams" },
+  { label: "Affiliate", href: "#affiliate" },
+  { label: "Products", href: "#products" },
+  { label: "AI Tools", href: "#ai-tools" },
+  { label: "Calculator", href: "#calculator" },
   { label: "Blog", href: "#blog" },
   { label: "FAQ", href: "#faq" },
 ];

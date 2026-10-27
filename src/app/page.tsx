@@ -13,10 +13,17 @@ import { Testimonials } from "@/components/sections/testimonials";
 import { Faq } from "@/components/sections/faq";
 import { FinalCta } from "@/components/sections/final-cta";
 import { AdZone } from "@/components/sections/ad-zone";
+import { AiContentGenerator } from "@/components/sections/ai-content-generator";
+import { EarningsCalculator } from "@/components/sections/earnings-calculator";
+import { UtmBuilder } from "@/components/sections/utm-builder";
+import { PageViewTracker } from "@/components/page-view-tracker";
+import { CheckoutNotifier } from "@/components/checkout-notifier";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <PageViewTracker />
+      <CheckoutNotifier />
       <SiteHeader />
       <main className="flex-1">
         <Hero />
@@ -26,6 +33,9 @@ export default function Home() {
         <AffiliateStore />
         <DigitalProducts />
         <Blog />
+        <AiContentGenerator />
+        <EarningsCalculator />
+        <UtmBuilder />
         <Newsletter />
         <Testimonials />
         <Faq />

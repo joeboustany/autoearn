@@ -27,6 +27,7 @@ import {
   Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ActivityFeed } from "@/components/sections/activity-feed";
 
 type HourlyPoint = {
   hour: string;
@@ -372,79 +373,86 @@ export function RevenueDashboard() {
           </Card>
         </div>
 
-        {/* Last 7 days bar chart */}
-        <Card className="mt-4 border-border/60">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <div>
-              <CardTitle className="text-base">Last 7 days</CardTitle>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Daily revenue totals
-              </p>
-            </div>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Package className="h-3.5 w-3.5" />
-              <span>
-                Total:{" "}
-                <span className="font-semibold text-foreground">
-                  $
-                  {data?.last7
-                    .reduce((s, d) => s + d.total, 0)
-                    .toFixed(0)
-                    .toLocaleString() ?? "—"}
+        {/* Last 7 days bar chart + Activity feed */}
+        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <Card className="border-border/60 lg:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <div>
+                <CardTitle className="text-base">Last 7 days</CardTitle>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Daily revenue totals
+                </p>
+              </div>
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <Package className="h-3.5 w-3.5" />
+                <span>
+                  Total:{" "}
+                  <span className="font-semibold text-foreground">
+                    $
+                    {data?.last7
+                      .reduce((s, d) => s + d.total, 0)
+                      .toFixed(0)
+                      .toLocaleString() ?? "—"}
+                  </span>
                 </span>
-              </span>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading || !data ? (
-              <ChartSkeleton className="h-[180px]" />
-            ) : (
-              <ResponsiveContainer width="100%" height={180}>
-                <BarChart
-                  data={data.last7}
-                  margin={{ top: 8, right: 8, left: -16, bottom: 0 }}
-                >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="hsl(var(--border))"
-                    strokeOpacity={0.4}
-                    vertical={false}
-                  />
-                  <XAxis
-                    dataKey="label"
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={11}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={11}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(v) => `$${v}`}
-                  />
-                  <Tooltip
-                    cursor={{ fill: "hsl(var(--accent) / 0.4)" }}
-                    contentStyle={{
-                      background: "hsl(var(--popover))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px",
-                      fontSize: "12px",
-                    }}
-                    formatter={(value: any) => [`$${value}`, "Revenue"]}
-                  />
-                  <Bar
-                    dataKey="total"
-                    fill="hsl(var(--primary))"
-                    radius={[4, 4, 0, 0]}
-                    maxBarSize={48}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            )}
-          </CardContent>
-        </Card>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {loading || !data ? (
+                <ChartSkeleton className="h-[180px]" />
+              ) : (
+                <ResponsiveContainer width="100%" height={180}>
+                  <BarChart
+                    data={data.last7}
+                    margin={{ top: 8, right: 8, left: -16, bottom: 0 }}
+                  >
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="hsl(var(--border))"
+                      strokeOpacity={0.4}
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="label"
+                      stroke="hsl(var(--muted-foreground))"
+                      fontSize={11}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      stroke="hsl(var(--muted-foreground))"
+                      fontSize={11}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(v) => `$${v}`}
+                    />
+                    <Tooltip
+                      cursor={{ fill: "hsl(var(--accent) / 0.4)" }}
+                      contentStyle={{
+                        background: "hsl(var(--popover))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "8px",
+                        fontSize: "12px",
+                      }}
+                      formatter={(value: any) => [`$${value}`, "Revenue"]}
+                    />
+                    <Bar
+                      dataKey="total"
+                      fill="hsl(var(--primary))"
+                      radius={[4, 4, 0, 0]}
+                      maxBarSize={48}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Live activity feed */}
+          <div className="lg:col-span-1">
+            <ActivityFeed />
+          </div>
+        </div>
       </div>
     </section>
   );
