@@ -66,5 +66,10 @@ Thumbs.db
 .zscripts/dev.pid
 upload/
 
+# Platform skill folders (NOT part of AutoEarn — exclude from deployment)
+skills/
+examples/
+tests/
+
 # Temp / scripts (keep scripts/ for the check-*.ts debug scripts)
 # (do NOT ignore scripts/)
