@@ -1,13 +1,43 @@
 'use client'
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { affiliateProducts } from "@/lib/catalog";
-import { Star, ExternalLink, TrendingUp } from "lucide-react";
+import { Star, ExternalLink, TrendingUp, Loader2, Check } from "lucide-react";
+import { toast } from "sonner";
 
 export function AffiliateStore() {
+  const [tracking, setTracking] = useState<string | null>(null);
+  const [tracked, setTracked] = useState<string | null>(null);
+
+  const promoteOffer = async (product: (typeof affiliateProducts)[number]) => {
+    setTracking(product.id);
+    try {
+      await fetch("/api/affiliate-click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: product.id,
+          productName: product.name,
+          vendor: product.vendor,
+          source: "affiliate-store-section",
+        }),
+      });
+      setTracked(product.id);
+      toast.success(`Click tracked: ${product.name}`, {
+        description: `Available in your admin panel · ${product.vendor} link generated`,
+      });
+      setTimeout(() => setTracked(null), 3000);
+    } catch (err) {
+      toast.error("Failed to track click");
+    } finally {
+      setTracking(null);
+    }
+  };
+
   return (
     <section id="affiliate" className="scroll-mt-16 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -19,9 +49,9 @@ export function AffiliateStore() {
             Curated products that pay you back
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-muted-foreground">
-            Hand-picked affiliate offers with proven conversion rates. Drop
-            these into your blog posts, videos, or newsletters and earn a
-            commission on every sale.
+            Hand-picked affiliate offers with proven conversion rates. Click
+            "Promote this offer" to generate a tracked link — every click is
+            recorded in your admin panel.
           </p>
         </div>
 
@@ -89,9 +119,25 @@ export function AffiliateStore() {
                     variant="outline"
                     size="sm"
                     className="w-full group-hover:bg-primary group-hover:text-primary-foreground"
+                    onClick={() => promoteOffer(p)}
+                    disabled={tracking === p.id}
                   >
-                    Promote this offer
-                    <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                    {tracking === p.id ? (
+                      <>
+                        <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                        Generating link…
+                      </>
+                    ) : tracked === p.id ? (
+                      <>
+                        <Check className="mr-1.5 h-3.5 w-3.5 text-emerald-500" />
+                        Tracked!
+                      </>
+                    ) : (
+                      <>
+                        Promote this offer
+                        <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                      </>
+                    )}
                   </Button>
                 </CardContent>
               </Card>

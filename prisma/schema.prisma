@@ -34,3 +34,30 @@ model RevenueEvent {
   description String?
   createdAt   DateTime @default(now())
 }
+
+model Goal {
+  id        String @id @default(cuid())
+  month     String @unique // "2026-10" format
+  target    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AffiliateClick {
+  id          String   @id @default(cuid())
+  productId   String
+  productName String
+  vendor      String
+  source      String   @default("organic") // utm_source or page section
+  createdAt   DateTime @default(now())
+}
+
+model Payout {
+  id          String   @id @default(cuid())
+  amount      Float
+  currency    String   @default("USD")
+  status      String   @default("completed") // completed | pending | failed
+  method      String   @default("bank_transfer")
+  scheduledAt DateTime
+  createdAt   DateTime @default(now())
+}

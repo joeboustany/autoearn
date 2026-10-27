@@ -5,6 +5,7 @@ import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { SearchBar } from "@/components/search-bar";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -13,9 +14,9 @@ const navItems = [
   { label: "Affiliate", href: "#affiliate" },
   { label: "Products", href: "#products" },
   { label: "AI Tools", href: "#ai-tools" },
-  { label: "Calculator", href: "#calculator" },
-  { label: "Blog", href: "#blog" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Calendar", href: "#calendar" },
+  { label: "Payouts", href: "#payouts" },
+  { label: "Admin", href: "#admin" },
 ];
 
 export function SiteHeader() {
@@ -62,6 +63,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <SearchBar />
           <Button
             variant="ghost"
             size="icon"
